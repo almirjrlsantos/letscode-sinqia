@@ -3,28 +3,25 @@
 
 package br.com.letscode.java.ativ4;
 
-import java.util.ArrayList;
-
 public class MainExercicioOito {
     public static void main(String[] args) {
         final float IMC_IDEAL_MIN = 18.5f;
         final float IMC_IDEAL_MAX = 25f;
-        ArrayList<Pessoa> pessoas = new ArrayList();
 
-        pessoas.add(new Pessoa("Almir",80, 1.70 ));
-        pessoas.add(new Pessoa("Meire",55.5, 1.56));
-        pessoas.add(new Pessoa("Carol",55.3, 1.62));
-        pessoas.add(new Pessoa("Rodrigo",95, 1.68));
-        pessoas.add(new Pessoa("Fran",52, 1.50));
+        Pessoa[] pessoas = new Pessoa[5];
+        pessoas[0] = new Pessoa("Almir",80, 1.70 );
+        pessoas[1] = new Pessoa("Meire",55.5, 1.56);
+        pessoas[2] = new Pessoa("Carol",55.3, 1.62);
+        pessoas[3] = new Pessoa("Rodrigo",95, 1.68);
+        pessoas[4] = new Pessoa("Fran",52, 1.50);
 
-        for(int i=0; i< pessoas.size(); i++){
-            Pessoa pessoa = pessoas.get(i);
-            double imc = pessoa.calcularImc(pessoa.getPeso(), pessoa.getAltura());
+        for(int i=0; i< pessoas.length; i++){
+            double imc = pessoas[i].calcularImc(pessoas[i].getPeso(), pessoas[i].getAltura());
 
             if(imc < IMC_IDEAL_MIN || imc > IMC_IDEAL_MAX){
-                pessoa.setImcIdeal(false);
+                pessoas[i].setImcIdeal(false);
             } else {
-                pessoa.setImcIdeal(true);
+                pessoas[i].setImcIdeal(true);
             }
         }
         for(Pessoa pessoa : pessoas){

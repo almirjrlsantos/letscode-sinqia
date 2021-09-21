@@ -3,34 +3,32 @@
 
 package br.com.letscode.java.ativ4;
 
-import java.util.ArrayList;
-
 public class MainExercicioSete {
     public static void main(String[] args) {
-        ArrayList<Pessoa> pessoas = new ArrayList();
-        pessoas.add(new Pessoa("Almir",30));
-        pessoas.add(new Pessoa("Meire",32));
-        pessoas.add(new Pessoa("Carol",20));
-        pessoas.add(new Pessoa("Rodrigo",25));
-        pessoas.add(new Pessoa("Fran",21));
+        Pessoa[] pessoas = new Pessoa[5];
+
+        pessoas[0] = new Pessoa("Almir", 30);
+        pessoas[1] = new Pessoa("Meire", 32);
+        pessoas[2] = new Pessoa("Carol", 25);
+        pessoas[3] = new Pessoa("Rodrigo", 28);
+        pessoas[4] = new Pessoa("Fran", 21);
 
         int maisVelho = 0;
         int maisNovo = 0;
         int somatorio = 0;
 
-        for(int i=0; i<pessoas.size(); i++){
-            if(pessoas.get(i).getIdade() > pessoas.get(maisVelho).getIdade()){
+        for(int i=0; i<pessoas.length; i++){
+            if(pessoas[i].getIdade() > pessoas[maisVelho].getIdade()){
                 maisVelho = i;
             }
-            if(pessoas.get(i).getIdade() < pessoas.get(maisNovo).getIdade()){
+            if(pessoas[i].getIdade() < pessoas[maisNovo].getIdade()){
                 maisNovo = i;
             }
-            somatorio += pessoas.get(i).getIdade();
+            somatorio += pessoas[i].getIdade();
         }
 
-        System.out.println("A pessoa mais nova é: "+ pessoas.get(maisNovo).getNome());
-        System.out.println("A pessoa mais velha é: "+ pessoas.get(maisVelho).getNome());
-        System.out.printf("A média de idade são: %d", somatorio/pessoas.size());
-
+        System.out.println("A pessoa mais nova é: "+ pessoas[maisNovo].getNome());
+        System.out.println("A pessoa mais velha é: "+ pessoas[maisVelho].getNome());
+        System.out.printf("A média de idade são: %d", somatorio/pessoas.length);
     }
 }
