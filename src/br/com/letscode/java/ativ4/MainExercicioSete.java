@@ -8,17 +8,11 @@ import java.util.ArrayList;
 public class MainExercicioSete {
     public static void main(String[] args) {
         ArrayList<Pessoa> pessoas = new ArrayList();
-
-        Pessoa pessoa = new Pessoa("Almir",30);
-        pessoas.add(pessoa);
-        pessoa = new Pessoa("Meire",32);
-        pessoas.add(pessoa);
-        pessoa = new Pessoa("Carol",20);
-        pessoas.add(pessoa);
-        pessoa = new Pessoa("Rodrigo",25);
-        pessoas.add(pessoa);
-        pessoa = new Pessoa("Fran",21);
-        pessoas.add(pessoa);
+        pessoas.add(new Pessoa("Almir",30));
+        pessoas.add(new Pessoa("Meire",32));
+        pessoas.add(new Pessoa("Carol",20));
+        pessoas.add(new Pessoa("Rodrigo",25));
+        pessoas.add(new Pessoa("Fran",21));
 
         int maisVelho = 0;
         int maisNovo = 0;

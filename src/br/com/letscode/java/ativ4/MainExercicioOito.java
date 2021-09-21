@@ -11,28 +11,25 @@ public class MainExercicioOito {
         final float IMC_IDEAL_MAX = 25f;
         ArrayList<Pessoa> pessoas = new ArrayList();
 
-        Pessoa pessoa = new Pessoa("Almir",80, 1.70 );
-        pessoas.add(pessoa);
-        pessoa = new Pessoa("Meire",55.5, 1.56);
-        pessoas.add(pessoa);
-        pessoa = new Pessoa("Carol",55.3, 1.62);
-        pessoas.add(pessoa);
-        pessoa = new Pessoa("Rodrigo",95, 1.68);
-        pessoas.add(pessoa);
-        pessoa = new Pessoa("Fran",52, 1.50);
-        pessoas.add(pessoa);
+        pessoas.add(new Pessoa("Almir",80, 1.70 ));
+        pessoas.add(new Pessoa("Meire",55.5, 1.56));
+        pessoas.add(new Pessoa("Carol",55.3, 1.62));
+        pessoas.add(new Pessoa("Rodrigo",95, 1.68));
+        pessoas.add(new Pessoa("Fran",52, 1.50));
 
         for(int i=0; i< pessoas.size(); i++){
-            double imc = pessoas.get(i).calcularImc(pessoas.get(i).getPeso(), pessoas.get(i).getAltura());
+            Pessoa pessoa = pessoas.get(i);
+            double imc = pessoa.calcularImc(pessoa.getPeso(), pessoa.getAltura());
+
             if(imc < IMC_IDEAL_MIN || imc > IMC_IDEAL_MAX){
-                pessoas.get(i).setImcIdeal(false);
+                pessoa.setImcIdeal(false);
             } else {
-                pessoas.get(i).setImcIdeal(true);
+                pessoa.setImcIdeal(true);
             }
         }
-        for(Pessoa p : pessoas){
-            if(!p.isImcIdeal()){
-                System.out.println(p.getNome() + " está fora do peso ideal.");
+        for(Pessoa pessoa : pessoas){
+            if(!pessoa.isImcIdeal()){
+                System.out.println(pessoa.getNome() + " está fora do peso ideal.");
             }
         }
     }
