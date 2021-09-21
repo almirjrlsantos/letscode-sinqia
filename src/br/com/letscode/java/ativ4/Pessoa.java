@@ -1,6 +1,7 @@
 //Crie uma classe para representar a estrutura de dados para uma Pessoa, contendo os
 // atributos de nome, idade. Defina os métodos construtor padrão e completo, e os
 // acessadores e modificadores para cada atributo. Também escreva o método "toString" para essa classe.
+
 package br.com.letscode.java.ativ4;
 
 public class Pessoa {

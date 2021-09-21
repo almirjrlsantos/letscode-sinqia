@@ -1,5 +1,6 @@
 //Reescreva a questão 7 da Lista 3 usando POO "Escreva um programa que
 // lê nome e idade de 5 pessoas e ao final informa quem é o mais novo, o mais velho e qual a média de idade.
+
 package br.com.letscode.java.ativ4;
 
 import java.util.ArrayList;
