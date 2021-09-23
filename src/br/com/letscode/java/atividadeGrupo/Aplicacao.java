@@ -43,19 +43,19 @@ public class Aplicacao {
                     abrirConta();
                     break;
                 case 2:
-                    abrirConta();
+                    saque();
                     break;
                 case 3:
-                    abrirConta();
+                    deposito();
                     break;
                 case 4:
-                    abrirConta();
+                    transferencia();
                     break;
                 case 5:
-                    abrirConta();
+                    investimento();
                     break;
                 case 6:
-                    abrirConta();
+                    consultarSaldo();
                     break;
                 default:;
 
