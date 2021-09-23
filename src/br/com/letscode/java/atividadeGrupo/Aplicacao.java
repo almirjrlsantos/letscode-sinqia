@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Aplicacao {
     public static void main(String[] args) {
-
+        Scanner scan = new Scanner(System.in);
         //Três clientes previamente cadastrados
         Cliente[] clientes = new Cliente[10];
         Conta[] contas = new Conta[10];
@@ -31,7 +31,7 @@ public class Aplicacao {
 
         boolean loop = true;
         while(loop){
-            Scanner scan = new Scanner(System.in);
+
             exibirPaginaInicial();
             int opcao = scan.nextInt();
 
@@ -62,7 +62,7 @@ public class Aplicacao {
             }
 
         }
-
+        scan.close();
 
     }
 
