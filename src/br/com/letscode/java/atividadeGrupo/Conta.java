@@ -106,6 +106,29 @@ public class Conta { // STATIC NAS CONSTANTES // CORRIGIR DE MULT PARA SOMA // C
         return false;
     }
 
+//    public static void investir(double valor) {
+//        if (this.getTotalInvestido() >= 10) {
+//            this.setTotalInvestido(this.getTotalInvestido() + valor);
+//
+//            if (this.getTipo() == "PF") {
+//                double PF_JUROS_INVESTIMENTO = 0.03;
+//                this.setTotalPatrimonio(this.getTotalInvestido() + this.getTotalInvestido() * PF_JUROS_INVESTIMENTO);
+//                this.setRendimentos(this.getTotalInvestido() * PF_JUROS_INVESTIMENTO);
+//
+//            }
+//            if (this.getTipo() == "PJ") {
+//                double PF_JUROS_INVESTIMENTO = 0.03;
+//                double PJ_JUROS_INVESTIMENTO = PF_JUROS_INVESTIMENTO + 0.02;
+//                this.setTotalPatrimonio(this.getTotalInvestido() + this.getTotalInvestido() * PJ_JUROS_INVESTIMENTO);
+//                this.setRendimentos(this.getTotalInvestido() * PJ_JUROS_INVESTIMENTO);
+//
+//            }
+//        } else {
+//            System.out.println("Valor minimo para investimento R$10,00. ");
+//
+//        }
+//    }
+
     @Override
     public String toString() {
         return "Conta{" +

@@ -1,5 +1,7 @@
 package br.com.letscode.java.atividadeGrupo;
 
+import jdk.swing.interop.SwingInterOpUtils;
+
 import java.math.BigDecimal;
 import java.util.Scanner;
 
@@ -24,32 +26,53 @@ public class Aplicacao {
         exibirContas();
 
         boolean loop = true;
+        boolean logado = false;
         while(loop){
-
             exibirPaginaInicial();
             int opcao = scan.nextInt();
-
-            switch (opcao){
+            switch (opcao) {
                 case 0:
                     loop = false;
                     break;
                 case 1:
                     abrirConta();
                     break;
+                case 2: // TEM QUE DIGITAR DUAS VEZES
+                   acessarConta();
+                   break;
+            }
+        }
+        scan.close();
+
+    }
+
+    private static void acessarConta() {
+        System.out.println("Informe a conta que deseja acessar:");
+        int contaSelecionada = selecionarConta();
+        Cliente cliente = clientes[contaSelecionada];
+        System.out.println(cliente.toString());
+
+        while(contaSelecionada != -1){
+            menuLogado();
+            int opcao = scan.nextInt();
+            switch (opcao){
+                case 0:
+                    contaSelecionada = -1;
+                    break;
                 case 2:
-                    saque();
+                    saque(cliente);
                     break;
                 case 3:
-                    deposito();
+                    deposito(cliente);
                     break;
                 case 4:
-                    transferencia();
+                    transferencia(cliente);
                     break;
                 case 5:
-                    investimento();
+                    investimento(cliente);
                     break;
                 case 6:
-                    consultarSaldo();
+                    consultarSaldo(cliente);
                     break;
                 case 99: /// APAGAR
                     exibirContas();
@@ -58,10 +81,7 @@ public class Aplicacao {
             }
 
         }
-        scan.close();
-
     }
-
 
 
     public static void exibirPaginaInicial(){
@@ -70,6 +90,19 @@ public class Aplicacao {
         System.out.println();
         System.out.println("Informe a opção que deseja usar:");
         System.out.println("[1] - Abrir Conta");
+        System.out.println("[2] - Acessar Conta");
+        System.out.println("[0] - Sair");
+        System.out.println();
+        System.out.println("=============================================");
+        System.out.println();
+        System.out.print("===> ");
+    }
+
+    public static void menuLogado(){
+
+        System.out.println("================== Bank AM ==================");
+        System.out.println();
+        System.out.println("Informe a opção que deseja usar:");
         System.out.println("[2] - Saque");
         System.out.println("[3] - Deposito");
         System.out.println("[4] - Transferência");
@@ -86,15 +119,15 @@ public class Aplicacao {
         System.out.println("\nEntrou em abrir conta\n\n");
     }
 
-    private static void saque() {
+    private static void saque(Cliente cliente) {
         System.out.println("\nEntrou em saque\n\n");
     }
 
-    private static void deposito() {
+    private static void deposito(Cliente cliente) {
         System.out.println("\nEntrou em deposito\n\n");
     }
 
-    private static void transferencia() {
+    private static void transferencia(Cliente cliente) {
         System.out.println("\nTransferencia");
         System.out.println("Qual a conta remetente:");
         int clienteRemetente = selecionarConta();
@@ -224,11 +257,21 @@ public class Aplicacao {
 
 
 
-    private static void investimento() {
-        System.out.println("\nEntrou em investimento\n\n");
+    private static void investimento(Cliente cliente) {
+            System.out.println("\nEntrou em investimento\n\n");
+            System.out.println("- AM INVESTIMENTOS - \n");
+
+            Investir p1 = new Investir();
+            p1.setTipo("PJ");
+            p1.setTotalInvestido(10);
+            p1.investir(20);
+            p1.investir(30);
+
+            p1.dados();
+
     }
 
-    private static void consultarSaldo() {
+    private static void consultarSaldo(Cliente cliente) {
         System.out.println("\nEntrou em consultar saldo\n\n");
     }
 
