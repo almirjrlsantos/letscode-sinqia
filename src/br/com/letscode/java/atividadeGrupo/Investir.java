@@ -1,4 +1,4 @@
-package br.com.projeto.java;
+package br.com.letscode.java.atividadeGrupo;
 
 public class Investir {
     private double totalInvestido;
