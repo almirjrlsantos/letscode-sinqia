@@ -82,52 +82,40 @@ public class Conta { // STATIC NAS CONSTANTES // CORRIGIR DE MULT PARA SOMA // C
         return false;
     }
 
-    public static boolean transferir(Cliente[] clientes, Conta[] contas, int contaRemetente, int contaDestinataria, int tipoRemetente, int tipoDestinatario, BigDecimal valor){
+    public static boolean transferir(Cliente[] clientes, Conta[] contas, int numContaRemetente, int numContaDestinataria, int tipoContaRemetente, int tipoContaDestinatario, BigDecimal valor){
+        Conta contaRemetente = contas[numContaRemetente];
+        BigDecimal valorEmCC = contaRemetente.getContaCorrente();
+        BigDecimal valorEmCP = contaRemetente.getContaPoupanca();
+        BigDecimal valorEmCI = contaRemetente.getContaInvestimento();
+
+        Conta contaDestinataria = contas[numContaDestinataria];
+        BigDecimal valorEmCCdestino = contaDestinataria.getContaCorrente();
+        BigDecimal valorEmCPdestino = contaDestinataria.getContaPoupanca();
+
         BigDecimal valorDebitado = valor;
-        if(clientes[contaRemetente].getTipo() == "PJ"){
+        if(clientes[numContaRemetente].getTipo() == "PJ"){
             valorDebitado = valor.multiply(BigDecimal.valueOf(1+PJ_TAXA_SAQUE_TRANSFER));
         }
-        if (Conta.temSaldo(clientes[contaRemetente], contas[contaRemetente], tipoRemetente, valor)) {
-            if (tipoRemetente == 1 && tipoDestinatario == 1) {
-                contas[contaRemetente].setContaCorrente(contas[contaRemetente].getContaCorrente().subtract(valorDebitado));
-                contas[contaDestinataria].setContaCorrente(contas[contaDestinataria].getContaCorrente().add(valor));
-            } else if (tipoRemetente == 1 && tipoDestinatario == 2) {
-                contas[contaRemetente].setContaCorrente(contas[contaRemetente].getContaCorrente().subtract(valorDebitado));
-                contas[contaDestinataria].setContaPoupanca(contas[contaDestinataria].getContaPoupanca().add(valor));
-            } else if (tipoRemetente == 2 && tipoDestinatario == 1) {
-                contas[contaRemetente].setContaPoupanca(contas[contaRemetente].getContaPoupanca().subtract(valor));
-                contas[contaDestinataria].setContaCorrente(contas[contaDestinataria].getContaCorrente().add(valor));
-            } else if (tipoRemetente == 3 && tipoDestinatario == 1) {
-                contas[contaRemetente].setContaInvestimento(contas[contaRemetente].getContaInvestimento().subtract(valorDebitado));
-                contas[contaDestinataria].setContaCorrente(contas[contaDestinataria].getContaCorrente().add(valor));
+
+        if (Conta.temSaldo(clientes[numContaRemetente], contaRemetente, tipoContaRemetente, valor)) {
+            if (tipoContaRemetente == 1 && tipoContaDestinatario == 1) {
+                contaRemetente.setContaCorrente(valorEmCC.subtract(valorDebitado));
+                contaDestinataria.setContaCorrente(valorEmCCdestino.add(valor));
+            } else if (tipoContaRemetente == 1 && tipoContaDestinatario == 2) {
+                contaRemetente.setContaCorrente(valorEmCC.subtract(valorDebitado));
+                contaDestinataria.setContaPoupanca(valorEmCPdestino.add(valor));
+            } else if (tipoContaRemetente == 2 && tipoContaDestinatario == 1) {
+                contaRemetente.setContaPoupanca(valorEmCP.subtract(valorDebitado));
+                contaDestinataria.setContaCorrente(valorEmCCdestino.add(valor));
+            } else if (tipoContaRemetente == 3 && tipoContaDestinatario == 1) {
+                contaRemetente.setContaInvestimento(valorEmCI.subtract(valorDebitado));
+                contaDestinataria.setContaCorrente(valorEmCCdestino.add(valor));
             }
             return true;
         }
         return false;
     }
 
-//    public static void investir(double valor) {
-//        if (this.getTotalInvestido() >= 10) {
-//            this.setTotalInvestido(this.getTotalInvestido() + valor);
-//
-//            if (this.getTipo() == "PF") {
-//                double PF_JUROS_INVESTIMENTO = 0.03;
-//                this.setTotalPatrimonio(this.getTotalInvestido() + this.getTotalInvestido() * PF_JUROS_INVESTIMENTO);
-//                this.setRendimentos(this.getTotalInvestido() * PF_JUROS_INVESTIMENTO);
-//
-//            }
-//            if (this.getTipo() == "PJ") {
-//                double PF_JUROS_INVESTIMENTO = 0.03;
-//                double PJ_JUROS_INVESTIMENTO = PF_JUROS_INVESTIMENTO + 0.02;
-//                this.setTotalPatrimonio(this.getTotalInvestido() + this.getTotalInvestido() * PJ_JUROS_INVESTIMENTO);
-//                this.setRendimentos(this.getTotalInvestido() * PJ_JUROS_INVESTIMENTO);
-//
-//            }
-//        } else {
-//            System.out.println("Valor minimo para investimento R$10,00. ");
-//
-//        }
-//    }
 
     @Override
     public String toString() {
