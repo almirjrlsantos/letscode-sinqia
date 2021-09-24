@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Aplicacao {
-
+///  MUDANÇA DESSES PARA STATIC // DOIS METODOS NO FINAL DO ARQUIVO // APAGAR CASE 99 MENU
     static Cliente[] clientes = new Cliente[10];
     static Conta[] contas = new Conta[10];
     static Scanner scan = new Scanner(System.in);
@@ -19,7 +19,7 @@ public class Aplicacao {
         contas[1] = new Conta(clientes[1].getNumContaCliente(), new BigDecimal(1000));
 
         clientes[2] = new Cliente("Empresa1","PJ", 0003);
-        contas[2] = new Conta(clientes[2].getNumContaCliente());
+        contas[2] = new Conta(clientes[2].getNumContaCliente(), new BigDecimal(500));
 
         exibirContas();
 
@@ -51,6 +51,8 @@ public class Aplicacao {
                 case 6:
                     consultarSaldo();
                     break;
+                case 99: /// APAGAR
+                    exibirContas();
                 default:;
 
             }
@@ -119,7 +121,7 @@ public class Aplicacao {
                                         System.out.println("Qual valor deseja transferir?");
                                         System.out.printf("===> ");
                                         BigDecimal valor = scan.nextBigDecimal();
-                                        if(Conta.transferir(contas, clienteRemetente, clienteDestinatario, contaRemetente,0, valor)){
+                                        if(Conta.transferir(clientes, contas, clienteRemetente, clienteDestinatario, contaRemetente,1, valor)){
                                             System.out.println("Transferencia realizada.\n\n");
                                         } else {
                                             System.out.println("Saldo insuficiente!\nTransferencia cancelada.\n\n");
@@ -129,7 +131,7 @@ public class Aplicacao {
                                         System.out.println("Qual valor deseja transferir?");
                                         System.out.printf("===> ");
                                         valor = scan.nextBigDecimal();
-                                        if(Conta.transferir(contas, clienteRemetente, clienteDestinatario, contaRemetente,0, valor)){
+                                        if(Conta.transferir(clientes, contas, clienteRemetente, clienteDestinatario, contaRemetente,1, valor)){
                                             System.out.println("Transferencia realizada.\n\n");
                                         } else {
                                             System.out.println("Saldo insuficiente!\nTransferencia cancelada.\n\n");
@@ -144,7 +146,7 @@ public class Aplicacao {
                         System.out.println("Qual valor deseja transferir?");
                         System.out.printf("===> ");
                         BigDecimal valor = scan.nextBigDecimal();
-                        if(Conta.transferir(contas, clienteRemetente, clienteDestinatario, tipoRemetente,0, valor)){
+                        if(Conta.transferir(clientes, contas, clienteRemetente, clienteDestinatario, tipoRemetente,1, valor)){
                             System.out.println("Transferencia realizada.\n\n");
                         } else {
                             System.out.println("Saldo insuficiente!\nTransferencia cancelada.\n\n");
@@ -170,7 +172,7 @@ public class Aplicacao {
                                     System.out.println("Qual valor deseja transferir?");
                                     System.out.printf("===> ");
                                     BigDecimal valor = scan.nextBigDecimal();
-                                    if(Conta.transferir(contas, clienteRemetente, clienteDestinatario, contaRemetente,2, valor)){
+                                    if(Conta.transferir(clientes, contas, clienteRemetente, clienteDestinatario, contaRemetente,2, valor)){
                                         System.out.println("Transferencia realizada.\n\n");
                                     } else {
                                         System.out.println("Saldo insuficiente!\nTransferencia cancelada.\n\n");
@@ -180,7 +182,7 @@ public class Aplicacao {
                                     System.out.println("Qual valor deseja transferir?");
                                     System.out.printf("===> ");
                                     valor = scan.nextBigDecimal();
-                                    if(Conta.transferir(contas, clienteRemetente, clienteDestinatario, contaRemetente,1, valor)){
+                                    if(Conta.transferir(clientes, contas, clienteRemetente, clienteDestinatario, contaRemetente,1, valor)){
                                         System.out.println("Transferencia realizada.\n\n");
                                     } else {
                                         System.out.println("Saldo insuficiente!\nTransferencia cancelada.\n\n");
@@ -190,7 +192,7 @@ public class Aplicacao {
                                     System.out.println("Qual valor deseja transferir?");
                                     System.out.printf("===> ");
                                     valor = scan.nextBigDecimal();
-                                    if(Conta.transferir(contas, clienteRemetente, clienteDestinatario, contaRemetente,3, valor)){
+                                    if(Conta.transferir(clientes, contas, clienteRemetente, clienteDestinatario, contaRemetente,1, valor)){
                                         System.out.println("Transferencia realizada.\n\n");
                                     } else {
                                         System.out.println("Saldo insuficiente!\nTransferencia cancelada.\n\n");
@@ -205,7 +207,7 @@ public class Aplicacao {
                         System.out.println("Qual valor deseja transferir?");
                         System.out.printf("===> ");
                         BigDecimal valor = scan.nextBigDecimal();
-                        if(Conta.transferir(contas, clienteRemetente, clienteDestinatario, contaRemetente,1, valor)){
+                        if(Conta.transferir(clientes, contas, clienteRemetente, clienteDestinatario, contaRemetente,1, valor)){
                             System.out.println("Transferencia realizada.\n\n");
                         } else {
                             System.out.println("Saldo insuficiente!\nTransferencia cancelada.\n\n");
@@ -218,7 +220,6 @@ public class Aplicacao {
         } else {
             System.out.println("Conta do remetente inválida!\nTransferencia cancelada.\n\n");
         }
-        exibirContas();
     }
 
 

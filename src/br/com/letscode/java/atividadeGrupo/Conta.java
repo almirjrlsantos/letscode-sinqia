@@ -2,17 +2,15 @@ package br.com.letscode.java.atividadeGrupo;
 
 import java.math.BigDecimal;
 
-public class Conta {
-    final private double PF_JUROS_INVESTIMENTO = 3;
-    final private double PF_TAXA_SAQUE_TRANSFER = 0.5;
-    final private double PJ_JUROS_INVESTIMENTO = PF_JUROS_INVESTIMENTO + 2; // CORRIGIR A OPERAÇÃO
+public class Conta { // STATIC NAS CONSTANTES // CORRIGIR DE MULT PARA SOMA // CORRIGIR PORCENTAGEM
+    final static private double PF_JUROS_INVESTIMENTO = 0.03;
+    final static private double PJ_TAXA_SAQUE_TRANSFER = 0.005;
+    final static private double PJ_JUROS_INVESTIMENTO = PF_JUROS_INVESTIMENTO + 0.02;
 
     private int numConta;
     private BigDecimal contaCorrente = new BigDecimal(0); // 1
     private BigDecimal contaPoupanca = new BigDecimal(0); // 2
     private BigDecimal contaInvestimento = new BigDecimal(0); //3
-    private boolean aberturaPoupanca = false;
-    private boolean aberturaInvestimento = false;
 
     private Conta(){}
 
@@ -64,7 +62,10 @@ public class Conta {
         this.contaInvestimento = contaInvestimento;
     }
 
-    public static boolean temSaldo(Conta conta, int tipo, BigDecimal valor){
+    public static boolean temSaldo(Cliente cliente, Conta conta, int tipo, BigDecimal valor){
+        if(cliente.getTipo() == "PJ"){
+            valor = valor.multiply(BigDecimal.valueOf(1+PJ_TAXA_SAQUE_TRANSFER));
+        }
         if(tipo == 1){
             if (conta.getContaCorrente().doubleValue()  >= valor.doubleValue()){
                 return true;
@@ -81,35 +82,26 @@ public class Conta {
         return false;
     }
 
-    public static boolean transferir(Conta[] contas, int contaRemetente, int contaDestinataria, int tipoRemetente, int tipoDestinatario, BigDecimal valor){
-        if(tipoDestinatario == 0) {
-            if (Conta.temSaldo(contas[contaRemetente], tipoRemetente, valor)) {
-                if (tipoRemetente == 1) {
-                    contas[contaRemetente].setContaCorrente(contas[contaRemetente].getContaCorrente().subtract(valor));
-                    contas[contaDestinataria].setContaCorrente(contas[contaDestinataria].getContaCorrente().add(valor));
-                } else if (tipoRemetente == 2) {
-                    contas[contaRemetente].setContaPoupanca(contas[contaRemetente].getContaPoupanca().subtract(valor));
-                    contas[contaDestinataria].setContaCorrente(contas[contaDestinataria].getContaCorrente().add(valor));
-                } else if (tipoRemetente == 3) {
-                    contas[contaRemetente].setContaInvestimento(contas[contaRemetente].getContaInvestimento().subtract(valor));
-                    contas[contaDestinataria].setContaCorrente(contas[contaDestinataria].getContaCorrente().add(valor));
-                }
-                return true;
+    public static boolean transferir(Cliente[] clientes, Conta[] contas, int contaRemetente, int contaDestinataria, int tipoRemetente, int tipoDestinatario, BigDecimal valor){
+        BigDecimal valorDebitado = valor;
+        if(clientes[contaRemetente].getTipo() == "PJ"){
+            valorDebitado = valor.multiply(BigDecimal.valueOf(1+PJ_TAXA_SAQUE_TRANSFER));
+        }
+        if (Conta.temSaldo(clientes[contaRemetente], contas[contaRemetente], tipoRemetente, valor)) {
+            if (tipoRemetente == 1 && tipoDestinatario == 1) {
+                contas[contaRemetente].setContaCorrente(contas[contaRemetente].getContaCorrente().subtract(valorDebitado));
+                contas[contaDestinataria].setContaCorrente(contas[contaDestinataria].getContaCorrente().add(valor));
+            } else if (tipoRemetente == 1 && tipoDestinatario == 2) {
+                contas[contaRemetente].setContaCorrente(contas[contaRemetente].getContaCorrente().subtract(valorDebitado));
+                contas[contaDestinataria].setContaPoupanca(contas[contaDestinataria].getContaPoupanca().add(valor));
+            } else if (tipoRemetente == 2 && tipoDestinatario == 1) {
+                contas[contaRemetente].setContaPoupanca(contas[contaRemetente].getContaPoupanca().subtract(valor));
+                contas[contaDestinataria].setContaCorrente(contas[contaDestinataria].getContaCorrente().add(valor));
+            } else if (tipoRemetente == 3 && tipoDestinatario == 1) {
+                contas[contaRemetente].setContaInvestimento(contas[contaRemetente].getContaInvestimento().subtract(valorDebitado));
+                contas[contaDestinataria].setContaCorrente(contas[contaDestinataria].getContaCorrente().add(valor));
             }
-        } else {
-            if (Conta.temSaldo(contas[contaRemetente], tipoRemetente, valor)){
-                if (tipoRemetente == 1 && tipoDestinatario == 2) {
-                    contas[contaRemetente].setContaCorrente(contas[contaRemetente].getContaCorrente().subtract(valor));
-                    contas[contaDestinataria].setContaPoupanca(contas[contaDestinataria].getContaPoupanca().add(valor));
-                } else if (tipoRemetente == 2 && tipoDestinatario == 1) {
-                    contas[contaRemetente].setContaPoupanca(contas[contaRemetente].getContaPoupanca().subtract(valor));
-                    contas[contaDestinataria].setContaCorrente(contas[contaDestinataria].getContaCorrente().add(valor));
-                } else if (tipoRemetente == 3 && tipoDestinatario == 1) {
-                    contas[contaRemetente].setContaInvestimento(contas[contaRemetente].getContaInvestimento().subtract(valor));
-                    contas[contaDestinataria].setContaCorrente(contas[contaDestinataria].getContaCorrente().add(valor));
-                }
-                return true;
-            }
+            return true;
         }
         return false;
     }
