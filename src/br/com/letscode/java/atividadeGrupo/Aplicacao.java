@@ -4,12 +4,14 @@ import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Aplicacao {
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        //Três clientes previamente cadastrados
-        Cliente[] clientes = new Cliente[10];
-        Conta[] contas = new Conta[10];
 
+    static Cliente[] clientes = new Cliente[10];
+    static Conta[] contas = new Conta[10];
+    static Scanner scan = new Scanner(System.in);
+
+
+    public static void main(String[] args) {
+        //Três clientes previamente cadastrados
         clientes[0] = new Cliente("Maria","PF", 0001);
         contas[0] = new Conta(clientes[0].getNumContaCliente());
 
@@ -19,15 +21,7 @@ public class Aplicacao {
         clientes[2] = new Cliente("Empresa1","PJ", 0003);
         contas[2] = new Conta(clientes[2].getNumContaCliente());
 
-//        // Exibir contas
-//        for(int i=0; i<clientes.length; i++) {
-//            if(clientes[i] == null){
-//                break;
-//            }
-//            System.out.println(clientes[i].toString());
-//            System.out.println(contas[i].toString());
-//            System.out.println();
-//        }
+        exibirContas();
 
         boolean loop = true;
         while(loop){
@@ -66,6 +60,8 @@ public class Aplicacao {
 
     }
 
+
+
     public static void exibirPaginaInicial(){
 
         System.out.println("================== Bank AM ==================");
@@ -97,8 +93,137 @@ public class Aplicacao {
     }
 
     private static void transferencia() {
-        System.out.println("\nEntrou em transferencia\n\n");
+        System.out.println("\nTransferencia");
+        System.out.println("Qual a conta remetente:");
+        int clienteRemetente = selecionarConta();
+        clienteRemetente -= 1;
+        if(clienteRemetente != -1){
+            System.out.println("Qual a conta do destinatário:");
+            int clienteDestinatario = selecionarConta();
+            clienteDestinatario -= 1;
+            if(clienteDestinatario != -1){
+
+                if(clienteDestinatario != clienteRemetente){
+                    System.out.println("De qual conta deseja transferir?");
+                    if(clientes[clienteRemetente].getTipo() == "PF"){
+                        System.out.println("[1] - Conta corrente");
+                        System.out.println("[2] - Conta poupança");
+                        System.out.println("[0] - Cancelar transferência");
+                        int contaRemetente;
+                        do{
+                            System.out.printf("===> ");
+                            contaRemetente = scan.nextInt();
+                            switch (contaRemetente){
+                                    case 0:
+                                        System.out.printf("Transferencia Cancelada");
+                                        break;
+                                    case 1:
+                                        System.out.println("Qual valor deseja transferir?");
+                                        System.out.printf("===> ");
+                                        BigDecimal valor = scan.nextBigDecimal();
+                                        if(Conta.transferir(contas, clienteRemetente, clienteDestinatario, contaRemetente,0, valor)){
+                                            System.out.println("Transferencia realizada.\n\n");
+                                        } else {
+                                            System.out.println("Saldo insuficiente!\nTransferencia cancelada.\n\n");
+                                        }
+                                        break;
+                                    case 2:
+                                        System.out.println("Qual valor deseja transferir?");
+                                        System.out.printf("===> ");
+                                        valor = scan.nextBigDecimal();
+                                        if(Conta.transferir(contas, clienteRemetente, clienteDestinatario, contaRemetente,0, valor)){
+                                            System.out.println("Transferencia realizada.\n\n");
+                                        } else {
+                                            System.out.println("Saldo insuficiente!\nTransferencia cancelada.\n\n");
+                                        }
+                                        break;
+                            }
+                        }while(contaRemetente < 0 || contaRemetente > 2);
+
+                    } else {
+                        //PJ
+                        int tipoRemetente = 1;
+                        System.out.println("Qual valor deseja transferir?");
+                        System.out.printf("===> ");
+                        BigDecimal valor = scan.nextBigDecimal();
+                        if(Conta.transferir(contas, clienteRemetente, clienteDestinatario, tipoRemetente,0, valor)){
+                            System.out.println("Transferencia realizada.\n\n");
+                        } else {
+                            System.out.println("Saldo insuficiente!\nTransferencia cancelada.\n\n");
+                        }
+                    }
+                    //Transferencia entre mesma conta
+                } else {
+                    System.out.println("De qual conta deseja transferir?");
+                    if(clientes[clienteRemetente].getTipo() == "PF"){
+                        System.out.println("[1] - Conta corrente -> Conta poupança");
+                        System.out.println("[2] - Conta poupança -> Conta corrente");
+                        System.out.println("[3] - Investimento -> Conta corrente");
+                        System.out.println("[0] - Cancelar Transferência");
+                        int contaRemetente;
+                        do{
+                            System.out.printf("===> ");
+                            contaRemetente = scan.nextInt();
+                            switch (contaRemetente){
+                                case 0:
+                                    System.out.printf("Transferencia Cancelada");
+                                    break;
+                                case 1:
+                                    System.out.println("Qual valor deseja transferir?");
+                                    System.out.printf("===> ");
+                                    BigDecimal valor = scan.nextBigDecimal();
+                                    if(Conta.transferir(contas, clienteRemetente, clienteDestinatario, contaRemetente,2, valor)){
+                                        System.out.println("Transferencia realizada.\n\n");
+                                    } else {
+                                        System.out.println("Saldo insuficiente!\nTransferencia cancelada.\n\n");
+                                    }
+                                    break;
+                                case 2:
+                                    System.out.println("Qual valor deseja transferir?");
+                                    System.out.printf("===> ");
+                                    valor = scan.nextBigDecimal();
+                                    if(Conta.transferir(contas, clienteRemetente, clienteDestinatario, contaRemetente,1, valor)){
+                                        System.out.println("Transferencia realizada.\n\n");
+                                    } else {
+                                        System.out.println("Saldo insuficiente!\nTransferencia cancelada.\n\n");
+                                    }
+                                    break;
+                                case 3:
+                                    System.out.println("Qual valor deseja transferir?");
+                                    System.out.printf("===> ");
+                                    valor = scan.nextBigDecimal();
+                                    if(Conta.transferir(contas, clienteRemetente, clienteDestinatario, contaRemetente,3, valor)){
+                                        System.out.println("Transferencia realizada.\n\n");
+                                    } else {
+                                        System.out.println("Saldo insuficiente!\nTransferencia cancelada.\n\n");
+                                    }
+                                    break;
+                            }
+                        }while(contaRemetente < 0 || contaRemetente > 2);
+
+                    } else {
+                        int contaRemetente = 3;
+                        System.out.println("Transferir de Investimento -> Conta corrente");
+                        System.out.println("Qual valor deseja transferir?");
+                        System.out.printf("===> ");
+                        BigDecimal valor = scan.nextBigDecimal();
+                        if(Conta.transferir(contas, clienteRemetente, clienteDestinatario, contaRemetente,1, valor)){
+                            System.out.println("Transferencia realizada.\n\n");
+                        } else {
+                            System.out.println("Saldo insuficiente!\nTransferencia cancelada.\n\n");
+                        }
+                    }
+                }
+            } else {
+                System.out.println("Conta destinatária inválida!\nTransferencia cancelada.\n\n");
+            }
+        } else {
+            System.out.println("Conta do remetente inválida!\nTransferencia cancelada.\n\n");
+        }
+        exibirContas();
     }
+
+
 
     private static void investimento() {
         System.out.println("\nEntrou em investimento\n\n");
@@ -108,5 +233,25 @@ public class Aplicacao {
         System.out.println("\nEntrou em consultar saldo\n\n");
     }
 
+    private static int selecionarConta(){
+        System.out.printf("===>: ");
+        int contaInformada = scan.nextInt();
+
+        if(Cliente.contaExiste(clientes, contaInformada)){
+            return contaInformada;
+        }
+        return 0;
+    }
+
+    private static void exibirContas() {
+        for(int i=0; i<clientes.length; i++) {
+            if(clientes[i] == null){
+                break;
+            }
+            System.out.println(clientes[i].toString());
+            System.out.println(contas[i].toString());
+            System.out.println();
+        }
+    }
 }
 

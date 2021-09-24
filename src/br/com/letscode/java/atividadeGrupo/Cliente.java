@@ -1,5 +1,7 @@
 package br.com.letscode.java.atividadeGrupo;
 
+import java.util.Scanner;
+
 public class Cliente {
     private String nomeCliente;
     private String tipo; // Se é PF ou PJ
@@ -35,6 +37,18 @@ public class Cliente {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public static boolean contaExiste(Cliente[] clientes, int contaInformada){
+        for(int i=0; i< clientes.length; i++){
+            if(clientes[i] == null){
+                return false;
+            }
+            if(clientes[i].getNumContaCliente() == contaInformada){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
