@@ -21,7 +21,13 @@ public class Aplicacao {
         clientes[2] = new Cliente("Empresa1","PJ", 0003);
         contas[2] = new Conta(clientes[2].getNumContaCliente(), new BigDecimal(500));
 
+        // ================================
+        //APAGAR DEPOIS
+        //SEM MENU
         exibirContas();
+        Cliente cliente = clientes[2];
+        deposito(cliente);
+        // ========================================
 
         boolean loop = true;
         while(loop){
@@ -123,6 +129,13 @@ public class Aplicacao {
 
     private static void deposito(Cliente cliente) {
         System.out.println("\nEntrou em deposito\n\n");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Por favor informe o valor que deseja depositar: ");
+        double valor = sc.nextDouble();
+
+        // vc recebe o cliente,
+        //this.saldo = BigDecimal.valueOf(this.saldo.doubleValue() + valor);
+       // System.out.println("Seu saldo atual: " + this.saldo);
     }
 
     private static void transferencia(Cliente cliente) {
