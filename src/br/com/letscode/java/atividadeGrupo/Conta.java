@@ -11,6 +11,8 @@ public class Conta {
     private BigDecimal contaCorrente = new BigDecimal(0); // 1
     private BigDecimal contaPoupanca = new BigDecimal(0); // 2
     private BigDecimal contaInvestimento = new BigDecimal(0); //3
+    private boolean aberturaPoupanca = false;
+    private boolean aberturaInvestimento = false;
 
     private Conta(){}
 

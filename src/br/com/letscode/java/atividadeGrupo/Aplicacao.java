@@ -96,11 +96,9 @@ public class Aplicacao {
         System.out.println("\nTransferencia");
         System.out.println("Qual a conta remetente:");
         int clienteRemetente = selecionarConta();
-        clienteRemetente -= 1;
         if(clienteRemetente != -1){
             System.out.println("Qual a conta do destinatário:");
             int clienteDestinatario = selecionarConta();
-            clienteDestinatario -= 1;
             if(clienteDestinatario != -1){
 
                 if(clienteDestinatario != clienteRemetente){
@@ -238,9 +236,9 @@ public class Aplicacao {
         int contaInformada = scan.nextInt();
 
         if(Cliente.contaExiste(clientes, contaInformada)){
-            return contaInformada;
+            return contaInformada-1;
         }
-        return 0;
+        return -1;
     }
 
     private static void exibirContas() {
