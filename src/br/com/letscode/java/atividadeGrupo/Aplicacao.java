@@ -71,7 +71,7 @@ public class Aplicacao {
                     contaSelecionada = -1;
                     break;
                 case 2:
-                    saque(cliente);
+                    saque(cliente, conta);
                     break;
                 case 3:
                     deposito(cliente, conta);
@@ -93,7 +93,6 @@ public class Aplicacao {
 
         }
     }
-
 
     public static void exibirPaginaInicial(){
 
@@ -124,12 +123,53 @@ public class Aplicacao {
         System.out.println("\nEntrou em abrir conta\n\n");
     }
 
-    private static void saque(Cliente cliente) {
-        System.out.println("\nEntrou em saque\n\n");
+    private static void saque(Cliente cliente, Conta conta) {
+        System.out.println("================== Bank AM - Saque ==================\n");
+        if(cliente.getTipo().equals("PF")) {
+            System.out.println("De qual conta deseja sacar?");
+            System.out.println("[1] - Conta corrente");
+            System.out.println("[2] - Conta poupança");
+            System.out.println("[3] - Conta investimento");
+            System.out.println("[0] - Cancelar Saque");
+            int tipoContasaque;
+            do {
+                System.out.printf("===> ");
+                tipoContasaque = scan.nextInt();
+            }while(tipoContasaque < 0 || tipoContasaque > 3);
+            if(tipoContasaque!=0){
+                System.out.println("Qual valor deseja sacar?");
+                System.out.printf("===> ");
+                BigDecimal valor = scan.nextBigDecimal();
+                conta.sacar(cliente, conta,tipoContasaque, valor);
+
+            }
+        } else {
+            System.out.println("De qual conta deseja sacar?");
+            System.out.println("[1] - Conta corrente");
+            System.out.println("[2] - Conta investimento");
+            System.out.println("[0] - Cancelar Saque");
+            int tipoContasaque;
+            do {
+                System.out.printf("===> ");
+                tipoContasaque = scan.nextInt();
+            }while(tipoContasaque < 0 || tipoContasaque > 2);
+            if(tipoContasaque!=0){
+                if(tipoContasaque == 2){
+                    tipoContasaque = 3;
+                }
+                System.out.println("Qual valor deseja sacar?");
+                System.out.printf("===> ");
+                BigDecimal valor = scan.nextBigDecimal();
+                conta.sacar(cliente, conta,tipoContasaque, valor);
+
+            }
+        }
+        System.out.println("=====================================================\n");
     }
 
     private static void deposito(Cliente cliente, Conta conta) {
-        System.out.println("\nEntrou em deposito\n\n");
+        System.out.println("================== Bank AM - Deposito ==================\n");
+
         Scanner sc = new Scanner(System.in);
         System.out.println("Por favor informe para qual conta deseja depositar");
         if (cliente.getTipo() == "PF") {
@@ -180,9 +220,8 @@ public class Aplicacao {
                     System.out.println("Deposito realizado com sucesso.");
                     break;
             }
-
-            exibirContas();
         }
+        System.out.println("\n================================================\n");
     }
 
     private static void transferencia(Cliente cliente) {
@@ -312,20 +351,20 @@ public class Aplicacao {
         System.out.println("==============================================================\n");
     }
 
+    private static void investimento (Cliente cliente, Conta conta){
+        System.out.println("================== Bank AM - Investimento ==================\n");
 
-
-    private static void investimento(Cliente cliente, Conta conta) {
-            System.out.println("\nEntrou em investimento\n\n");
-            System.out.println("- AM INVESTIMENTOS - \n");
-
-            cliente.getTipo();
-            Investir p1 = new Investir();
-            p1.setTipo("PJ");
-            p1.setTotalInvestido(10);
-            p1.investir(cliente,20);
-            p1.investir(cliente, 30);
-            p1.dados();
-
+        Investir p1 = new Investir();
+        System.out.println("Qual valor deseja investir? ");
+        System.out.printf("===> ");
+        BigDecimal valor = scan.nextBigDecimal();
+        if (Conta.temSaldo(cliente, contas[cliente.getNumContaCliente() -1], 1, valor)) {
+            p1.investir(valor, cliente, conta);
+            p1.dados(valor);
+        } else {
+            System.out.println("Saldo insuficiente para esta operação.\n\n ");
+        }
+        System.out.println("\n======================================================\n");
     }
 
     private static void consultarSaldo(Cliente cliente) {

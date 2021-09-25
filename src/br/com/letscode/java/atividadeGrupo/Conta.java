@@ -82,6 +82,44 @@ public class Conta { // STATIC NAS CONSTANTES // CORRIGIR DE MULT PARA SOMA // C
         return false;
     }
 
+    public boolean sacar( Cliente cliente, Conta conta, int tipoConta, BigDecimal valor ){
+        BigDecimal valorSaque = valor;
+
+        // Se PJ aciciona taxa
+        if( cliente.getTipo().equals("PJ") ){
+            valorSaque = valor.multiply( BigDecimal.valueOf( 1 + PJ_TAXA_SAQUE_TRANSFER) );
+        }
+
+        if ( Conta.temSaldo( cliente , conta , tipoConta , valorSaque) ) {
+            switch ( tipoConta ) {
+                case 1:
+                    BigDecimal valorEmCC = conta.getContaCorrente();
+                    conta.setContaCorrente( valorEmCC.subtract( valorSaque ) );
+                    System.out.println("Saque feito com sucesso");
+                    break;
+
+                case 2:
+                    BigDecimal valorEmCP = conta.getContaPoupanca();
+                    conta.setContaPoupanca( valorEmCP.subtract( valorSaque ) );
+                    System.out.println("Saque feito com sucesso");
+                    break;
+
+                case 3:
+                    BigDecimal valorEmCI = conta.getContaInvestimento();
+                    conta.setContaInvestimento( valorEmCI.subtract( valorSaque ) );
+                    System.out.println("Saque feito com sucesso");
+                    break;
+
+                default:
+                    break;
+            }
+
+            return true;
+        }
+        System.out.println("Saldo insuficiente!\nSaque cancelado.\n\n");
+        return false;
+    }
+
     public static boolean transferir(Cliente[] clientes, Conta[] contas, int numContaRemetente, int numContaDestinataria, int tipoContaRemetente, int tipoContaDestinatario, BigDecimal valor){
         Conta contaRemetente = contas[numContaRemetente];
         BigDecimal valorEmCC = contaRemetente.getContaCorrente();
