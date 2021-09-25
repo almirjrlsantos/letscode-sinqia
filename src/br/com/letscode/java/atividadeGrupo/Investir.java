@@ -11,11 +11,9 @@ public class Investir {
     final static private double PJ_JUROS_INVESTIMENTO = PF_JUROS_INVESTIMENTO + 0.02;
 
     public void dados(BigDecimal valor) {
-        System.out.println("Total Investido: " + valor);
+        System.out.println("\nTotal Investido: " + valor);
         System.out.println("Rendimentos: " + this.getRendimentos());
         System.out.println("Total do Patrimônio: " + this.getTotalPatrimonio());
-        System.out.println("\n");
-
     }
 
     public Investir() {
@@ -78,7 +76,6 @@ public class Investir {
             this.setTotalInvestido(this.getTotalInvestido() + valor.doubleValue());
 
             if (cliente.getTipo() == "PF") {
-                System.out.println("\nEntrou em PF");
                 double PF_JUROS_INVESTIMENTO = 0.03;
                 this.setTotalPatrimonio(valorConta + valor.doubleValue() * (PF_JUROS_INVESTIMENTO + 1));
                 this.setTotalInvestido(getTotalInvestido() + valor.doubleValue());
@@ -88,7 +85,6 @@ public class Investir {
 
             }
             if (cliente.getTipo() == "PJ") {
-                System.out.println("\nEntrou em PJ");
                 double PF_JUROS_INVESTIMENTO = 0.03;
                 double PJ_JUROS_INVESTIMENTO = PF_JUROS_INVESTIMENTO + 0.02;
                 this.setTotalPatrimonio(valorConta + valor.doubleValue() * (PJ_JUROS_INVESTIMENTO + 1));
@@ -99,7 +95,7 @@ public class Investir {
 
             }
         } else {
-            System.out.println("Valor minimo para investimento R$10,00. \n");
+            System.out.println("Valor minimo para investimento R$10,00.");
 
         }
     }

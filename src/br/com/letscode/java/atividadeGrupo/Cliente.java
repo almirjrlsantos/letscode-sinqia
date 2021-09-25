@@ -1,10 +1,8 @@
 package br.com.letscode.java.atividadeGrupo;
 
-import java.util.Scanner;
-
 public class Cliente {
     private String nomeCliente;
-    private String tipo; // Se é PF ou PJ
+    private String tipo;
     private int numContaCliente;
 
     private Cliente() {}
@@ -53,10 +51,11 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{" +
-                "nomeCliente='" + nomeCliente + '\'' +
-                ", tipo='" + tipo + '\'' +
-                ", numContaCliente=" + numContaCliente +
-                '}';
+        String apresentacao = "";
+        if(this.getTipo().equals("PF")){
+            apresentacao += "Ola Sr(a) ";
+        }
+        apresentacao += nomeCliente + ". Sua conta é do tipo " + tipo + ", numero: 000" + numContaCliente;
+        return apresentacao;
     }
 }

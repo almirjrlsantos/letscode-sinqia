@@ -62,8 +62,8 @@ public class Conta { // STATIC NAS CONSTANTES // CORRIGIR DE MULT PARA SOMA // C
         this.contaInvestimento = contaInvestimento;
     }
 
-    public static boolean temSaldo(Cliente cliente, Conta conta, int tipo, BigDecimal valor){
-        if(cliente.getTipo() == "PJ"){
+    public boolean temSaldo(Cliente cliente, Conta conta, int tipo, BigDecimal valor){
+        if(cliente.getTipo().equals("PJ")){
             valor = valor.multiply(BigDecimal.valueOf(1+PJ_TAXA_SAQUE_TRANSFER));
         }
         if(tipo == 1){
@@ -85,12 +85,11 @@ public class Conta { // STATIC NAS CONSTANTES // CORRIGIR DE MULT PARA SOMA // C
     public boolean sacar( Cliente cliente, Conta conta, int tipoConta, BigDecimal valor ){
         BigDecimal valorSaque = valor;
 
-        // Se PJ aciciona taxa
         if( cliente.getTipo().equals("PJ") ){
             valorSaque = valor.multiply( BigDecimal.valueOf( 1 + PJ_TAXA_SAQUE_TRANSFER) );
         }
 
-        if ( Conta.temSaldo( cliente , conta , tipoConta , valorSaque) ) {
+        if ( conta.temSaldo( cliente , conta , tipoConta , valorSaque) ) {
             switch ( tipoConta ) {
                 case 1:
                     BigDecimal valorEmCC = conta.getContaCorrente();
@@ -120,7 +119,7 @@ public class Conta { // STATIC NAS CONSTANTES // CORRIGIR DE MULT PARA SOMA // C
         return false;
     }
 
-    public static boolean transferir(Cliente[] clientes, Conta[] contas, int numContaRemetente, int numContaDestinataria, int tipoContaRemetente, int tipoContaDestinatario, BigDecimal valor){
+    public boolean transferir(Cliente cliente, Conta[] contas, int numContaRemetente, int numContaDestinataria, int tipoContaRemetente, int tipoContaDestinatario, BigDecimal valor){
         Conta contaRemetente = contas[numContaRemetente];
         BigDecimal valorEmCC = contaRemetente.getContaCorrente();
         BigDecimal valorEmCP = contaRemetente.getContaPoupanca();
@@ -131,11 +130,11 @@ public class Conta { // STATIC NAS CONSTANTES // CORRIGIR DE MULT PARA SOMA // C
         BigDecimal valorEmCPdestino = contaDestinataria.getContaPoupanca();
 
         BigDecimal valorDebitado = valor;
-        if(clientes[numContaRemetente].getTipo() == "PJ"){
+        if(cliente.getTipo() == "PJ"){
             valorDebitado = valor.multiply(BigDecimal.valueOf(1+PJ_TAXA_SAQUE_TRANSFER));
         }
 
-        if (Conta.temSaldo(clientes[numContaRemetente], contaRemetente, tipoContaRemetente, valor)) {
+        if (contas[numContaRemetente].temSaldo(cliente, contaRemetente, tipoContaRemetente, valor)) {
             if (tipoContaRemetente == 1 && tipoContaDestinatario == 1) {
                 contaRemetente.setContaCorrente(valorEmCC.subtract(valorDebitado));
                 contaDestinataria.setContaCorrente(valorEmCCdestino.add(valor));
