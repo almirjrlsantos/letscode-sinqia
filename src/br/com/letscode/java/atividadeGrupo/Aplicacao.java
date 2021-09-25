@@ -12,7 +12,7 @@ public class Aplicacao {
 
     public static void main(String[] args) {
         //Três clientes previamente cadastrados
-        clientes[0] = new Cliente("Maria","PF", 0001);
+        clientes[0] = new Cliente("Maria","PF",0001);
         contas[0] = new Conta(clientes[0].getNumContaCliente());
 
         clientes[1] = new Cliente("João","PF", 0002);
@@ -24,10 +24,10 @@ public class Aplicacao {
         // ================================
         //APAGAR DEPOIS
         //SEM MENU
-        exibirContas();
-        Cliente cliente = clientes[2];
-        deposito(cliente);
-        // ========================================
+//        exibirContas();
+//        Cliente cliente = clientes[2];
+//        investimento(cliente);
+//        // ========================================
 
         boolean loop = true;
         while(loop){
@@ -60,7 +60,8 @@ public class Aplicacao {
         }while (contaSelecionada == -1);
 
         Cliente cliente = clientes[contaSelecionada];
-        System.out.println(cliente.toString());
+        Conta conta = contas[contaSelecionada];
+        System.out.println(cliente.toString());// APAGAR
 
         while(contaSelecionada != -1){
             menuLogado();
@@ -73,13 +74,13 @@ public class Aplicacao {
                     saque(cliente);
                     break;
                 case 3:
-                    deposito(cliente);
+                    deposito(cliente, conta);
                     break;
                 case 4:
                     transferencia(cliente);
                     break;
                 case 5:
-                    investimento(cliente);
+                    investimento(cliente, conta);
                     break;
                 case 6:
                     consultarSaldo(cliente);
@@ -127,15 +128,61 @@ public class Aplicacao {
         System.out.println("\nEntrou em saque\n\n");
     }
 
-    private static void deposito(Cliente cliente) {
+    private static void deposito(Cliente cliente, Conta conta) {
         System.out.println("\nEntrou em deposito\n\n");
         Scanner sc = new Scanner(System.in);
-        System.out.println("Por favor informe o valor que deseja depositar: ");
-        double valor = sc.nextDouble();
+        System.out.println("Por favor informe para qual conta deseja depositar");
+        if (cliente.getTipo() == "PF") {
+            System.out.println("Para qual conta deseja depositar");
+            System.out.println("[1] - Conta corrente");
+            System.out.println("[2] - Conta poupança");
+            System.out.println("[0] - Cancelar Deposito");
+            int contaSelecionada = sc.nextInt();
 
-        // vc recebe o cliente,
-        //this.saldo = BigDecimal.valueOf(this.saldo.doubleValue() + valor);
-       // System.out.println("Seu saldo atual: " + this.saldo);
+            System.out.println("Por favor informe o valor que deseja depositar: ");
+            Scanner dValor = new Scanner(System.in);
+            BigDecimal valor = dValor.nextBigDecimal();
+
+            switch (contaSelecionada) {
+                case 0:
+                    System.out.println("Deposito Cancelado");
+                    break;
+                case 1: // CC
+                    conta.depositar(cliente, conta, valor, contaSelecionada);
+                    System.out.println("Deposito realizado com sucesso.");
+                    break;
+
+                case 2:  //CP
+                    conta.depositar(cliente, conta, valor, contaSelecionada);
+                    System.out.println("Deposito realizado com sucesso.");
+                    break;
+
+                default:
+                    break;
+            }
+
+        } else {
+            System.out.println("Deseja confirmar deposito: ");
+            System.out.println("[1] - Conta corrente");
+            System.out.println("[0] - Cancelar Deposito");
+            int contaSelecionada = sc.nextInt();
+
+            System.out.println("Por favor informe o valor que deseja depositar: ");
+            Scanner dValor = new Scanner(System.in);
+            BigDecimal valor = dValor.nextBigDecimal();
+            switch (contaSelecionada) {
+                case 0:
+                    System.out.println("Deposito Cancelado");
+                    break;
+
+                case 1:
+                    conta.depositar(cliente, conta, valor, contaSelecionada);
+                    System.out.println("Deposito realizado com sucesso.");
+                    break;
+            }
+
+            exibirContas();
+        }
     }
 
     private static void transferencia(Cliente cliente) {
@@ -267,15 +314,16 @@ public class Aplicacao {
 
 
 
-    private static void investimento(Cliente cliente) {
+    private static void investimento(Cliente cliente, Conta conta) {
             System.out.println("\nEntrou em investimento\n\n");
             System.out.println("- AM INVESTIMENTOS - \n");
 
+            cliente.getTipo();
             Investir p1 = new Investir();
             p1.setTipo("PJ");
             p1.setTotalInvestido(10);
-            p1.investir(20);
-            p1.investir(30);
+            p1.investir(cliente,20);
+            p1.investir(cliente, 30);
             p1.dados();
 
     }

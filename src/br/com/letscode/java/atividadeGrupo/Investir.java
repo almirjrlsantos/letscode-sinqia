@@ -1,10 +1,12 @@
 package br.com.letscode.java.atividadeGrupo;
 
+
 public class Investir {
     private double totalInvestido;
     private double rendimentos;
     private double totalPatrimonio;
     private String tipo;
+
 
     public void dados() {
         System.out.println("Tipo de Conta: " + this.getTipo());
@@ -16,7 +18,6 @@ public class Investir {
     }
 
     public Investir() {
-
     }
 
     public Investir(double totalInvestido, double rendimentos, double totalPatrimonio, String tipo) {
@@ -69,11 +70,11 @@ public class Investir {
                 '}';
     }
 
-    public void investir(double valor) {
+    public void investir(Cliente cliente, double valor) {
         if (this.getTotalInvestido() >= 10) {
             this.setTotalInvestido(this.getTotalInvestido() + valor);
 
-            if (this.getTipo() == "PF") {
+            if (cliente.getTipo() == "PF") {
                 double PF_JUROS_INVESTIMENTO = 0.03;
                 this.setTotalPatrimonio(this.getTotalInvestido() + this.getTotalInvestido() * PF_JUROS_INVESTIMENTO);
                 this.setRendimentos(this.getTotalInvestido() * PF_JUROS_INVESTIMENTO);
@@ -91,5 +92,6 @@ public class Investir {
 
         }
     }
+
 }
 

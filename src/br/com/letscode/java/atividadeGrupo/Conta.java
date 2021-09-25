@@ -116,7 +116,23 @@ public class Conta { // STATIC NAS CONSTANTES // CORRIGIR DE MULT PARA SOMA // C
         return false;
     }
 
+    public boolean depositar(Cliente cliente, Conta conta , BigDecimal valor, int contaSelecionada) {
+        switch ( contaSelecionada) {
+            case 1:
+                BigDecimal valorEmCC = conta.getContaCorrente();
+                conta.setContaCorrente(valorEmCC.add(valor));
+                break;
 
+            case 2:
+                BigDecimal valorEmCP = conta.getContaPoupanca();
+                conta.setContaPoupanca(valorEmCP.add(valor));
+                break;
+
+            default:
+                break;
+        }
+        return true;
+    }
     @Override
     public String toString() {
         return "Conta{" +
